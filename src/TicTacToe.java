@@ -23,12 +23,16 @@ public class TicTacToe {
 
         p1 = new Person1(name1, bead1);
         p2 = new Person2(name2, bead2);
-        startGame();
 
+        do {
+            turn();
+            Play.reset();
+            System.out.println("Do you want to play again ?");
+        } while (!s.next().equals("NO"));
 
     }
 
-    public static void startGame(){
+    public static void turn(){
         Play play = new Play();
         for (int i=0 ; i<=4 ; i++){
             p1.display();
@@ -47,6 +51,14 @@ public class TicTacToe {
                 }
             } while (check1 == 0);
 
+            int result;
+            result = play.checkResult();
+            if (result == 20){
+                play.displayGame();
+                System.out.println(p1.getName() + " is winner. (" + p1.getBead() + ")\n");
+                break;
+            }
+
             if (i != 4){
                int check2 = 0;
                 do {
@@ -61,7 +73,17 @@ public class TicTacToe {
                 } while (check2 == 0);
             }
 
+            result = play.checkResult();
+            if (result == 20){
+                play.displayGame();
+                System.out.println(p2.getName() + " is winner. (" + p2.getBead() + ")\n");
+                break;
+            }
+
             play.displayGame();
+        }
+        if (play.checkResult() == 0){
+            System.out.println("The result is equal.");
         }
     }
 }
