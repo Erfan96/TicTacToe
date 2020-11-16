@@ -1,7 +1,9 @@
 import java.util.Scanner;
 public class TicTacToe {
+    static Person1 p1;
+    static Person2 p2;
+    static Scanner s = new Scanner(System.in);
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
         System.out.println("Please enter name of the first player :");
         String name1 = s.next();
         System.out.println("Please enter [X] or [O] for first player :");
@@ -19,8 +21,69 @@ public class TicTacToe {
         else
             bead2 = 'X';
 
-        Person1 p1 = new Person1(name1, bead1);
-        Person2 p2 = new Person2(name2, bead2);
+        p1 = new Person1(name1, bead1);
+        p2 = new Person2(name2, bead2);
 
+        do {
+            turn();
+            Play.reset();
+            System.out.println("Do you want to play again ?");
+        } while (!s.next().equals("NO"));
+
+    }
+
+    public static void turn(){
+        Play play = new Play();
+        for (int i=0 ; i<=4 ; i++){
+            p1.display();
+            p2.display();
+            play.displayGame();
+
+            int check1 = 0;
+            do {
+                System.out.println(p1.getName() + " please enter your number :");
+                int num = s.nextInt();
+                if (num <= 9) {
+                    check1 = play.game(p1.getBead(), num);
+                }
+                else{
+                    System.out.println("You should enter right number.");
+                }
+            } while (check1 == 0);
+
+            int result;
+            result = play.checkResult();
+            if (result == 20){
+                play.displayGame();
+                System.out.println(p1.getName() + " is winner. (" + p1.getBead() + ")\n");
+                break;
+            }
+
+            if (i != 4){
+               int check2 = 0;
+                do {
+                    System.out.println(p2.getName() + " please enter your number :");
+                    int num = s.nextInt();
+                    if (num <= 9 ) {
+                        check2 = play.game(p2.getBead(), num);
+                    }
+                    else {
+                        System.out.println("You should enter right number.");
+                    }
+                } while (check2 == 0);
+            }
+
+            result = play.checkResult();
+            if (result == 20){
+                play.displayGame();
+                System.out.println(p2.getName() + " is winner. (" + p2.getBead() + ")\n");
+                break;
+            }
+
+            play.displayGame();
+        }
+        if (play.checkResult() == 0){
+            System.out.println("The result is equal.");
+        }
     }
 }

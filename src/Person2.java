@@ -5,7 +5,6 @@ public class Person2 {
     public Person2(String n, char b) {
         setName(n);
         setBead(b);
-        display();
     }
 
     public void display(){
